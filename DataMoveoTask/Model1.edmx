@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="moveo_task_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tblCodeBlock">
+          <Key>
+            <PropertyRef Name="BlockId" />
+          </Key>
+          <Property Name="BlockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="CorrectCode" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tblSessins">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="BlockId" Type="int" />
+          <Property Name="UserId" Type="char" MaxLength="9" />
+          <Property Name="MentorId" Type="char" MaxLength="9" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="10" />
+          <Property Name="Email" Type="varchar" MaxLength="250" />
+          <Property Name="Type" Type="char" MaxLength="1" />
+        </EntityType>
+        <Association Name="FK__tblSessin__Block__5CD6CB2B">
+          <End Role="tblCodeBlock" Type="Self.tblCodeBlock" Multiplicity="0..1" />
+          <End Role="tblSessins" Type="Self.tblSessins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCodeBlock">
+              <PropertyRef Name="BlockId" />
+            </Principal>
+            <Dependent Role="tblSessins">
+              <PropertyRef Name="BlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSessin__UserI__5DCAEF64">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="0..1" />
+          <End Role="tblSessins" Type="Self.tblSessins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSessins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="moveo_task_DBModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCodeBlock" EntityType="Self.tblCodeBlock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSessins" EntityType="Self.tblSessins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblSessin__Block__5CD6CB2B" Association="Self.FK__tblSessin__Block__5CD6CB2B">
+            <End Role="tblCodeBlock" EntitySet="tblCodeBlock" />
+            <End Role="tblSessins" EntitySet="tblSessins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSessin__UserI__5DCAEF64" Association="Self.FK__tblSessin__UserI__5DCAEF64">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblSessins" EntitySet="tblSessins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="moveo_task_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblCodeBlock">
+          <Key>
+            <PropertyRef Name="BlockId" />
+          </Key>
+          <Property Name="BlockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorrectCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblSessins" Relationship="Self.FK__tblSessin__Block__5CD6CB2B" FromRole="tblCodeBlock" ToRole="tblSessins" />
+        </EntityType>
+        <EntityType Name="tblSessins">
+          <Key>
+            <PropertyRef Name="SessionId" />
+          </Key>
+          <Property Name="SessionId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BlockId" Type="Int32" />
+          <Property Name="UserId" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="MentorId" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tblCodeBlock" Relationship="Self.FK__tblSessin__Block__5CD6CB2B" FromRole="tblSessins" ToRole="tblCodeBlock" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblSessin__UserI__5DCAEF64" FromRole="tblSessins" ToRole="tblUsers" />
+        </EntityType>
+        <EntityType Name="tblUsers">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tblSessins" Relationship="Self.FK__tblSessin__UserI__5DCAEF64" FromRole="tblUsers" ToRole="tblSessins" />
+        </EntityType>
+        <Association Name="FK__tblSessin__Block__5CD6CB2B">
+          <End Role="tblCodeBlock" Type="Self.tblCodeBlock" Multiplicity="0..1" />
+          <End Role="tblSessins" Type="Self.tblSessins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCodeBlock">
+              <PropertyRef Name="BlockId" />
+            </Principal>
+            <Dependent Role="tblSessins">
+              <PropertyRef Name="BlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblSessin__UserI__5DCAEF64">
+          <End Role="tblUsers" Type="Self.tblUsers" Multiplicity="0..1" />
+          <End Role="tblSessins" Type="Self.tblSessins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblUsers">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="tblSessins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="moveoTaskDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tblCodeBlock" EntityType="Self.tblCodeBlock" />
+          <EntitySet Name="tblSessins" EntityType="Self.tblSessins" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUsers" />
+          <AssociationSet Name="FK__tblSessin__Block__5CD6CB2B" Association="Self.FK__tblSessin__Block__5CD6CB2B">
+            <End Role="tblCodeBlock" EntitySet="tblCodeBlock" />
+            <End Role="tblSessins" EntitySet="tblSessins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblSessin__UserI__5DCAEF64" Association="Self.FK__tblSessin__UserI__5DCAEF64">
+            <End Role="tblUsers" EntitySet="tblUsers" />
+            <End Role="tblSessins" EntitySet="tblSessins" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="moveo_task_DBModelStoreContainer" CdmEntityContainer="moveoTaskDbContext">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="moveo_task_DBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCodeBlock">
+            <EntityTypeMapping TypeName="moveo_task_DBModel.tblCodeBlock">
+              <MappingFragment StoreEntitySet="tblCodeBlock">
+                <ScalarProperty Name="BlockId" ColumnName="BlockId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CorrectCode" ColumnName="CorrectCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSessins">
+            <EntityTypeMapping TypeName="moveo_task_DBModel.tblSessins">
+              <MappingFragment StoreEntitySet="tblSessins">
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="BlockId" ColumnName="BlockId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="MentorId" ColumnName="MentorId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="moveo_task_DBModel.tblUsers">
+              <MappingFragment StoreEntitySet="tblUsers">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
